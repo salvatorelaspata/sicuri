@@ -1,13 +1,95 @@
-<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="com.Innovation.ui5Project.controller.View1" xmlns:unified="sap.ui.unified" xmlns:dnd="sap.ui.core.dnd" displayBlock="true">
-    <Shell id="shell">
+<mvc:View xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m"	xmlns:core="sap.ui.core" controllerName="com.Innovation.ui5Project.controller.View1" xmlns:unified="sap.ui.unified" xmlns:dnd="sap.ui.core.dnd" displayBlock="true">
+
+    <Page showHeader="true" showFooter="false">
+        <customHeader>
+            <Toolbar>
+                <Button type="Back" tooltip="Back" />
+                <ToolbarSpacer />
+                <Title text="Dispatching" level="H1" />
+                <ToolbarSpacer />
+            </Toolbar>
+        </customHeader>
         <SplitApp id="app" initialDetail="detail" initialMaster="master">
             <detailPages>
-                <Page id="detail" title="Planning Calendar" backgroundDesign="Solid" class="sapUiStdPage">
-                    <PlanningCalendar id="PC1" startDate="{path: 'calendarModel>/startDate'}" rows="{path: 'calendarModel>/people'}" appointmentsVisualization="Filled">
+                <Page id="detail" title="Risorse Disponibili" backgroundDesign="Solid" class="sapUiStdPage">
+                    <customHeader>
+                        <Toolbar>
+                            <Title text="Risorse Disponibili" level="H1" />
+                            <ToolbarSpacer />
+                            <VBox id="idVBoxRisorse">
+                                <FacetFilter
+                                    id="idFacetFilterRisorse"
+                                    type="Simple"
+                                    showPersonalization="true"
+                                    liveSearch="false"
+                                    showReset="true"
+                                    reset="handleFacetFilterReset"
+                                    confirm="handleConfirm">
+                                    <lists>
+                                        <FacetFilterList
+                                            title="Numero OdS"
+                                            key="key"
+                                            mode="MultiSelect"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                            title="Date"
+                                            key="keyDate"
+                                            mode="None"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                            title="Stato"
+                                            key="key"
+                                            mode="MultiSelect"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                            title="Impianto"
+                                            key="key"
+                                            mode="None"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                            title="Cliente"
+                                            key="key"
+                                            mode="None"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                    </lists>
+                                </FacetFilter>
+                        
+                                <!-- A demo table will be appended here -->
+                            </VBox>
+                        </Toolbar>
+                    </customHeader>
+                    <PlanningCalendar 
+                        id="PC1" 
+                        startDate="{path: 'calendarModel>/startDate'}" 
+                        rows="{path: 'calendarModel>/people'}" 
+                        appointmentsVisualization="Filled"
+				        appointmentSelect="handleAppointmentSelect">
+                        <toolbarContent>
+				            <Button id="addButton" icon="sap-icon://legend" press="handleAppointmentCreate" tooltip="Add" ariaHasPopup="Dialog"/>
+                        </toolbarContent>
                         <rows>
-                            <PlanningCalendarRow title="{calendarModel>name}" text="{calendarModel>role}" enableAppointmentsDragAndDrop="true" enableAppointmentsResize="true" enableAppointmentsCreate="true" appointmentDrop="handleAppointmentDrop" appointmentDragEnter="handleAppointmentDragEnter" appointmentResize="handleAppointmentResize" appointmentCreate="handleAppointmentCreate" appointments="{calendarModel>appointments}">
+                            <PlanningCalendarRow 
+                                title="{calendarModel>name}" 
+                                text="{calendarModel>role}" 
+                                enableAppointmentsDragAndDrop="true" 
+                                enableAppointmentsResize="true" 
+                                enableAppointmentsCreate="true"
+                                appointments="{calendarModel>appointments}">
                                 <appointments>
-                                    <unified:CalendarAppointment startDate="{calendarModel>start}" endDate="{calendarModel>end}" icon="{calendarModel>pic}" title="{calendarModel>title}" text="{calendarModel>info}" type="{calendarModel>type}" tentative="{tentative}"></unified:CalendarAppointment>
+                                    <unified:CalendarAppointment 
+                                        startDate="{calendarModel>start}" 
+                                        endDate="{calendarModel>end}" 
+                                        icon="{calendarModel>pic}" 
+                                        title="{calendarModel>title}" 
+                                        text="{calendarModel>info}" 
+                                        type="{calendarModel>type}" 
+                                        tentative="{tentative}">
+                                    </unified:CalendarAppointment>
                                 </appointments>
                             </PlanningCalendarRow>
                         </rows>
@@ -16,22 +98,101 @@
 
             </detailPages>
             <masterPages>
-                <Page id="master" title="List" backgroundDesign="List" icon="sap-icon://action" class="sapUiStdPage">
+                <Page id="master" title="Elenco OdS" backgroundDesign="List" icon="sap-icon://action" class="sapUiStdPage">
+                    <customHeader>
+                        <Toolbar>
+                            <Title text="Elenco OdS" level="H1" />
+                            <ToolbarSpacer />
+                            <VBox id="idVBox">
+                                <FacetFilter
+                                    id="idFacetFilter"
+                                    type="Simple"
+                                    showPersonalization="true"
+                                    liveSearch="false"
+                                    showReset="true"
+                                    reset="handleFacetFilterReset"
+                                    confirm="handleConfirm">
+                                    <lists>
+                                        <FacetFilterList
+                                            id="fc1"
+                                            title="Numero OdS"
+                                            key="key"
+                                            mode="MultiSelect"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                        id="fc2"
+                                            title="Date"
+                                            key="keyDate"
+                                            mode="None"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                        id="fc3"
+                                            title="Stato"
+                                            key="key"
+                                            mode="MultiSelect"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                        id="fc4"
+                                            title="Impianto"
+                                            key="key"
+                                            mode="None"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                        <FacetFilterList
+                                        id="fc5"
+                                            title="Cliente"
+                                            key="key"
+                                            mode="None"
+                                            search="handleSearch">
+                                        </FacetFilterList>
+                                    </lists>
+                                </FacetFilter>
+                        
+                                <!-- A demo table will be appended here -->
+                            </VBox>
+                        </Toolbar>
+                    </customHeader>
                     <List id="idList" items="{listModel>/}" growing="true" growingThreshold="50" includeItemInSelection="false">
-                        <infoToolbar>
-                            <OverflowToolbar visible="false" id="idInfoToolbar">
-                                <Label id="idFilterLabel"/>
-                            </OverflowToolbar>
-                        </infoToolbar>
-
                         <dragDropConfig>
-                            <dnd:DragDropInfo sourceAggregation="items" targetElement="PC1-Table" targetAggregation="items" dragEnter="onListPlanningCalendardragEnter" dragStart="onListPlanningCalendardragStart" drop="onListPlanningCalendarDrop"/>
+                            <dnd:DragDropInfo sourceAggregation="items" targetElement="PC1-Table" targetAggregation="items" dragEnter="onListPlanningCalendardragEnter" dragStart="onListPlanningCalendardragStart" drop="onListPlanningCalendarDrop" />
                         </dragDropConfig>
-                        <StandardListItem id="listItem" title="{listModel>ProductName}" description="{listModel>ShipperName}" icon="{listModel>ProductPicUrl}" iconDensityAware="false" iconInset="false"/>
+                        <CustomListItem
+                        highlight="{listModel>highlight}">
+                            <HBox justifyContent="SpaceBetween">
+                                <VBox width="100%" class="sapUiSmallMarginBegin sapUiSmallMarginEnd sapUiSmallMarginTopBottom" >
+                                    <Link text="{listModel>Info}" />
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Label text="{listModel>Title}"/>
+                                            <Text text="{listModel>TitleText}"/>
+                                        </HBox>
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Label text="{listModel>SubTitle}"/>
+                                            <Text text="{listModel>SubTitleText}"/>
+                                        </HBox>
+                                        <HBox justifyContent="SpaceBetween">
+                                            <Label text="{listModel>Description}"/>
+                                            <Text text="{listModel>DescriptionText}"/>
+                                        </HBox>
+                                       
+                                </VBox>
+                                <!-- <core:Icon size="1rem" src="sap-icon://message-information" class="sapUiSmallMarginEnd sapUiSmallMarginTopBottom" /> -->
+                            </HBox>
+                        </CustomListItem>
+                        <!-- <StandardListItem  
+                            highlight="{listModel>highlight}" 
+                            title="{listModel>Title}" 
+                            description="{listModel>Description}" 
+                            info="{listModel>Info}"
+                            icon="sap-icon://message-information" 
+                            iconDensityAware="false" 
+                            iconInset="true" /> -->
                     </List>
                 </Page>
             </masterPages>
         </SplitApp>
-    </Shell>
-</mvc:View>
+    </Page>
 
+</mvc:View>
